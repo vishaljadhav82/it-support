@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing & Hardware Details | Sunday Tech Squad</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --primary: #0d6efd; --dark: #121212; --secondary: #6c757d; --warning: #ffc107; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; color: #333; }
+        
+        /* Matching Hero Style for Pricing Header */
+        .pricing-hero {
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1600');
+            background-size: cover; background-position: center; color: white; padding: 60px 0;
+        }
+
+        .card { border: none; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .sunday-badge { background: var(--warning); color: black; font-weight: bold; padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; }
+        .table thead { background: var(--primary); color: white; }
+        .hardware-note { background: #fff3cd; border-left: 5px solid var(--warning); padding: 15px; border-radius: 10px; }
+        
+        /* Footer matching home page */
+        .footer { background: #1a1a1a; color: #ccc; padding: 60px 0 20px; }
+        .footer-link { color: #999; text-decoration: none; font-size: 0.9rem; margin: 0 10px; transition: 0.3s; }
+        .footer-link:hover { color: var(--warning); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html"><i class="fas fa-network-wired me-2 text-primary"></i>SUNDAY TECH SQUAD</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link text-warning fw-bold" href="pricing.html">View Pricing</a></li>
+                    <div class="dropdown mx-lg-3">
+                        <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-language me-1"></i> Language
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow">
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="changeLanguage('en')">English</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="changeLanguage('hi')">हिंदी (Hindi)</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="changeLanguage('mr')">मराठी (Marathi)</a></li>
+                        </ul>
+                    </div>
+                    <span class="sunday-badge d-none d-md-block">Available Every Sunday</span>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="pricing-hero text-center">
+        <div class="container">
+            <h1 class="fw-bold" data-key="price_page_title">Service Estimates & Policies</h1>
+            <p class="lead opacity-75" data-key="price_page_subtitle">Transparent labor costs for professional Sunday IT visits.</p>
+        </div>
+    </header>
+
+    <main class="container py-5">
+        <div class="row g-4">
+            
+            <div class="col-lg-8">
+                <div class="card p-4">
+                    <h3 class="fw-bold mb-4" data-key="table_h">Technical Service Rates</h3>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th data-key="th1">Service Category</th>
+                                    <th data-key="th2">Level</th>
+                                    <th data-key="th3">Labor Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Printer Setup & Sharing</strong><br><small class="text-muted">Driver install, LAN/Wi-Fi sharing</small></td>
+                                    <td><span class="badge bg-info text-dark">L1 Support</span></td>
+                                    <td class="fw-bold text-primary">₹499</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>OS Formatting</strong><br><small class="text-muted">Windows 10/11 Fresh Install</small></td>
+                                    <td><span class="badge bg-dark">L2 Support</span></td>
+                                    <td class="fw-bold text-primary">₹800</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Office 365 Setup</strong><br><small class="text-muted">M365 License, Teams, Outlook</small></td>
+                                    <td><span class="badge bg-info text-dark">L1 Support</span></td>
+                                    <td class="fw-bold text-primary">₹600</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hardware Upgrade</strong><br><small class="text-muted">SSD/RAM Fitting & OS Migration</small></td>
+                                    <td><span class="badge bg-dark">L2 Support</span></td>
+                                    <td class="fw-bold text-primary">₹1,200</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="small text-muted mt-3" data-key="p_note">* Hardware parts and software licenses are charged extra.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card p-4 mb-4 hardware-note">
+                    <h5 class="fw-bold"><i class="fas fa-microchip me-2"></i>Hardware Rules</h5>
+                    <p class="small" data-key="rule_text">Book before <strong>Friday 6:00 PM</strong> for parts. We verify your model on Friday and procure parts on Saturday.</p>
+                </div>
+                <div class="card p-4 bg-dark text-white">
+                    <h5 class="fw-bold text-primary"><i class="fas fa-phone-alt me-2"></i>What's Next?</h5>
+                    <p class="small" data-key="next_text">After booking, expect a confirmation call on Saturday evening for scheduling.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer text-center">
+        <div class="container">
+            <h5 class="fw-bold text-white mb-3">Sunday Tech Squad Pune</h5>
+            <p class="small opacity-50 mb-4">&copy; 2026 | Professional Support Engineers Only</p>
+            <div class="d-flex justify-content-center flex-wrap mb-4">
+                <a href="privacy-policy.html" class="footer-link" >Privacy Policy</a>
+                <a href="terms.html" class="footer-link" >Terms of Service</a>
+                <a href="disclaimer.html" class="footer-link">Disclaimer</a>
+            </div>
+        </div>
+    </footer>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const translations = {
+            en: { price_page_title: "Service Estimates & Policies", price_page_subtitle: "Transparent labor costs for professional Sunday IT visits.", table_h: "Technical Service Rates", rule_text: "Book before Friday 6:00 PM for parts. We verify your model on Friday and procure parts on Saturday.", next_text: "After booking, expect a confirmation call on Saturday evening for scheduling." },
+            hi: { price_page_title: "सेवा अनुमान और नीतियां", price_page_subtitle: "पेशेवर रविवार आईटी विजिट के लिए पारदर्शी श्रम लागत।", table_h: "तकनीकी सेवा दरें", rule_text: "पुर्जों के लिए शुक्रवार शाम 6:00 बजे से पहले बुक करें। हम शुक्रवार को आपके मॉडल की पुष्टि करते हैं।", next_text: "बुकिंग के बाद, शनिवार शाम को पुष्टिकरण कॉल की प्रतीक्षा करें।" },
+            mr: { price_page_title: "सेवा अंदाज आणि धोरणे", price_page_subtitle: "प्रोफेशनल रविवार आयटी भेटींसाठी पारदर्शक श्रम खर्च.", table_h: "तांत्रिक सेवा दर", rule_text: "भाग मिळवण्यासाठी शुक्रवार संध्याकाळी ६:०० पूर्वी बुक करा. आम्ही शुक्रवारी मॉडेल तपासतो आणि शनिवारी भाग खरेदी करतो.", next_text: "बुकिंग केल्यानंतर, शनिवारी संध्याकाळी फोनची वाट पहा." }
+        };
+        window.changeLanguage = (lang) => {
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if(translations[lang][key]) el.innerText = translations[lang][key];
+            });
+        };
+    </script>
+</body>
+</html>

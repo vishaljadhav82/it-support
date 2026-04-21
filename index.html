@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunday Tech Squad | Pune Professional IT Support</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --primary: #0d6efd; --dark: #121212; --secondary: #6c757d; --warning: #ffc107; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; color: #333; scroll-behavior: smooth; }
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1600');
+            background-size: cover; background-position: center; color: white; padding: 100px 0;
+        }
+        .card { border: none; border-radius: 15px; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .service-card:hover { transform: translateY(-10px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .sunday-badge { background: var(--warning); color: black; font-weight: bold; padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; }
+        .tier-header { border-radius: 15px 15px 0 0; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        #geoStatus { font-size: 0.85rem; color: #198754; font-weight: 500; display: none; }
+        .lang-dropdown .btn { border-radius: 20px; }
+        .footer { background: #1a1a1a; color: #ccc; padding: 60px 0 20px; }
+        .footer-link { color: #999; text-decoration: none; font-size: 0.9rem; margin: 0 10px; transition: 0.3s; }
+        .footer-link:hover { color: var(--warning); }
+        .policy-box { background: #fff3cd; border-left: 5px solid var(--warning); padding: 15px; border-radius: 10px; font-size: 0.9rem; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#"><i class="fas fa-network-wired me-2 text-primary"></i>SUNDAY TECH SQUAD</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="#" data-key="nav_home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services" data-key="nav_services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link text-warning fw-bold" href="pricing.html" data-key="nav_pricing">View Pricing</a></li>
+                    <div class="dropdown mx-lg-3 lang-dropdown">
+                        <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-language me-1"></i> Language
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow">
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="changeLanguage('en')">English</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="changeLanguage('hi')">हिंदी (Hindi)</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="changeLanguage('mr')">मराठी (Marathi)</a></li>
+                        </ul>
+                    </div>
+                    <span class="sunday-badge d-none d-md-block" data-key="badge">Available Every Sunday</span>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-3" data-key="hero_title">Professional Desktop Support Engineers</h1>
+            <p class="lead mb-4 opacity-75" data-key="hero_subtitle">Corporate-grade L1 & L2 support at your doorstep, exclusively on Sundays.</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="#booking" class="btn btn-primary btn-lg px-5 shadow" data-key="book_btn">Book Now</a>
+                <a href="pricing.html" class="btn btn-outline-light btn-lg px-4 shadow" data-key="see_pricing">See Pricing</a>
+                <a href="https://wa.me/91XXXXXXXXXX" class="btn btn-success btn-lg px-4 shadow"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <section class="py-5 bg-white border-bottom">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <h2 class="fw-bold mb-4" data-key="about_title">Who We Are</h2>
+                    <p class="text-muted mb-4" data-key="about_desc">We are a team of active <strong>Desktop Support Engineers</strong> working in Pune's leading IT sectors. We bring our L1 & L2 expertise to fix your home and small-office tech issues every Sunday.</p>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-user-tie text-primary me-2"></i>
+                                <span class="fw-bold" data-key="f1">Industry Professionals</span>
+                            </div>
+                            <p class="small text-muted" data-key="f1_d">1+ years of corporate experience.</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-lock text-primary me-2"></i>
+                                <span class="fw-bold" data-key="f2">Secure & Private</span>
+                            </div>
+                            <p class="small text-muted" data-key="f2_d">Strict data privacy protocols.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="p-4 bg-light rounded shadow-sm border-start border-primary border-5">
+                        <h5 class="fw-bold mb-3" data-key="expert_title"><i class="fas fa-certificate text-warning me-2"></i>Expertise Focus</h5>
+                        <p class="small" data-key="expert_desc">Specialized in Microsoft Ecosystems, Network Infrastructure, and Office 365 Setup.</p>
+                        <div class="d-flex flex-wrap gap-2 mt-3">
+                            <span class="badge bg-secondary">Office 365</span>
+                            <span class="badge bg-secondary">Win 10/11</span>
+                            <span class="badge bg-secondary">Printer sharing</span>
+                            <span class="badge bg-secondary">L2 Support</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold" data-key="service_title">L1 & L2 Technical Specialties</h2>
+                <p class="text-muted" data-key="service_subtitle">Full-stack desktop and application support.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="card h-100 service-card">
+                        <div class="card-header bg-primary text-white tier-header p-3" data-key="tier1">L1 Support</div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush small">
+                                <li class="list-group-item"><i class="fas fa-print text-primary me-2"></i> <span data-key="l1_1">Printer Setup & Sharing</span></li>
+                                <li class="list-group-item"><i class="fas fa-window-restore text-primary me-2"></i> <span data-key="l1_2">Windows Support</span></li>
+                                <li class="list-group-item"><i class="fas fa-envelope text-primary me-2"></i> <span data-key="l1_3">Email & Outlook Config</span></li>
+                                <li class="list-group-item"><i class="fas fa-broom text-primary me-2"></i> <span data-key="l1_4">System Cleanup</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card h-100 service-card border-primary">
+                        <div class="card-header bg-white text-primary tier-header p-3" data-key="tier_office">Office 365 Setup</div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush small text-center">
+                                <li class="list-group-item border-0"><i class="fab fa-microsoft fa-3x text-primary mb-2"></i></li>
+                                <li class="list-group-item"><span data-key="o1">Installation & Licensing</span></li>
+                                <li class="list-group-item"><span data-key="o2">Teams & OneDrive Setup</span></li>
+                                <li class="list-group-item"><span data-key="o3">App Troubleshooting</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card h-100 service-card">
+                        <div class="card-header bg-dark text-white tier-header p-3" data-key="tier2">L2 Support</div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush small">
+                                <li class="list-group-item"><i class="fas fa-disc text-primary me-2"></i> <span data-key="l2_1">OS Formatting & Partition</span></li>
+                                <li class="list-group-item"><i class="fas fa-network-wired text-primary me-2"></i> <span data-key="l2_2">Advanced Router Config</span></li>
+                                <li class="list-group-item"><i class="fas fa-shield-virus text-primary me-2"></i> <span data-key="l2_3">Virus Removal & Security</span></li>
+                                <li class="list-group-item"><i class="fas fa-memory text-primary me-2"></i> <span data-key="l2_4">SSD/RAM Upgrade</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking" class="py-5 bg-white">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card shadow-lg p-4 p-md-5">
+                        <h3 class="fw-bold mb-4 text-center" data-key="form_title">Schedule Your Sunday Visit</h3>
+                        <form id="itBookingForm">
+                            <div class="row">
+                                <div class="col-md-4 mb-3"><label class="form-label fw-bold" data-key="l_name">Name</label><input type="text" class="form-control" id="clientName" required></div>
+                                <div class="col-md-4 mb-3"><label class="form-label fw-bold" data-key="l_phone">WhatsApp</label><input type="tel" class="form-control" id="clientPhone" required></div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label fw-bold" data-key="l_area">Area (Pune)</label>
+                                    <select class="form-select" id="clientArea" required>
+                                        <option value="" data-key="opt_choose">Select area...</option>
+                                        <option>Hinjewadi / Wakad</option><option>Baner / Balewadi</option><option>Kothrud / Bavdhan</option><option>Viman Nagar / Kharadi</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3"><label class="form-label fw-bold" data-key="l_address">Detailed Address / Landmark</label><textarea class="form-control" id="clientAddress" rows="2" required></textarea></div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold" data-key="l_time">Preferred Sunday Time</label>
+                                    <select class="form-select" id="clientTime">
+                                        <option value="Morning">Morning (10AM - 1PM)</option>
+                                        <option value="Afternoon">Afternoon (1PM - 4PM)</option>
+                                        <option value="Evening">Evening (4PM - 7PM)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3"><label class="form-label fw-bold" data-key="l_issue">Describe Tech Issue</label><input type="text" class="form-control" id="clientIssue" required></div>
+                            </div>
+
+                            <div class="mb-4 form-check">
+                                <input type="checkbox" class="form-check-input" id="termsCheck" required>
+                                <label class="form-check-label small" for="termsCheck">
+                                    <span data-key="agree_text">I agree to the</span> 
+                                    <a href="terms.html" target="_blank" class="text-primary">Terms</a>, 
+                                    <a href="privacy.html" target="_blank" class="text-primary">Privacy Policy</a> 
+                                    <span data-key="and_text">and</span> 
+                                    <a href="disclaimer.html" target="_blank" class="text-primary">Disclaimer</a>.
+                                </label>
+                            </div>
+
+                            <input type="hidden" id="lat"><input type="hidden" id="lng">
+                            <div id="geoStatus" class="mb-3 text-center"><i class="fas fa-map-marker-alt"></i> <span data-key="geo_msg">Location captured for Sunday route!</span></div>
+                            
+                            <button type="submit" id="submitBtn" class="btn btn-primary btn-lg w-100 fw-bold" data-key="confirm_btn">Confirm Slot Request</button>
+                        </form>
+                        
+                        <div class="policy-box text-center mt-3">
+                            <p class="mb-0"><strong>Note:</strong> <span data-key="policy_text">Book hardware upgrades before Friday 6PM. Confirmation call on Saturday evening.</span></p>
+                        </div>
+                        
+                        <div id="successMsg" class="alert alert-success mt-4 d-none text-center">
+                            <h5 class="fw-bold" data-key="h_success">Booking Logged!</h5>
+                            <p class="mb-0" data-key="p_success">Expect our call on Saturday evening.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer text-center text-white">
+        <div class="container">
+            <h5 class="fw-bold mb-3">Sunday Tech Squad Pune</h5>
+            <p class="small opacity-50 mb-4">&copy; 2026 | Professional Support Engineers Only</p>
+            <div class="d-flex justify-content-center flex-wrap mb-3">
+                <a href="privacy.html" class="footer-link">Privacy Policy</a>
+                <a href="terms.html" class="footer-link">Terms of Service</a>
+                <a href="disclaimer.html" class="footer-link">Disclaimer</a>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCPL0I5MLkkFsdbzIJIsPgbHtI2cSa2gdw",
+            authDomain: "it-support-ac1da.firebaseapp.com",
+            projectId: "it-support-ac1da",
+            storageBucket: "it-support-ac1da.firebasestorage.app",
+            messagingSenderId: "567057294883",
+            appId: "1:567057294883:web:189d5909861dee3e4eb396"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const form = document.getElementById('itBookingForm');
+        form.addEventListener('mouseenter', () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((p) => {
+                    document.getElementById('lat').value = p.coords.latitude;
+                    document.getElementById('lng').value = p.coords.longitude;
+                    document.getElementById('geoStatus').style.display = 'block';
+                });
+            }
+        }, { once: true });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true; btn.innerText = "Processing...";
+            try {
+                await addDoc(collection(db, "sunday_bookings"), {
+                    name: document.getElementById('clientName').value,
+                    phone: document.getElementById('clientPhone').value,
+                    area: document.getElementById('clientArea').value,
+                    address: document.getElementById('clientAddress').value,
+                    time: document.getElementById('clientTime').value,
+                    issue: document.getElementById('clientIssue').value,
+                    lat: document.getElementById('lat').value || "N/A",
+                    lng: document.getElementById('lng').value || "N/A",
+                    timestamp: serverTimestamp()
+                });
+                form.classList.add('d-none');
+                document.getElementById('successMsg').classList.remove('d-none');
+            } catch (err) { alert("Error"); btn.disabled = false; }
+        });
+    </script>
+
+    <script>
+        const translations = {
+            en: {
+                nav_home: "Home", nav_services: "Services", nav_pricing: "View Pricing", see_pricing: "See Pricing", badge: "Available Every Sunday", 
+                hero_title: "Professional Desktop Support Engineers", hero_subtitle: "Corporate-grade L1 & L2 support, exclusively on Sundays.", book_btn: "Book Now", 
+                about_title: "Who We Are", about_desc: "Active Desktop Support Engineers working in Pune's leading IT sectors.", f1: "Industry Pros", f2: "Secure & Private", 
+                expert_title: "Expertise Focus", service_title: "Technical Specialties", tier1: "L1 Support", tier_office: "Office 365 Setup", tier2: "L2 Support", 
+                l1_1: "Printer Setup", l1_2: "Windows Support", l1_3: "Email Config", l1_4: "System Cleanup", 
+                o1: "Install & License", o2: "Teams Setup", o3: "Troubleshooting", 
+                l2_1: "Formatting", l2_2: "Router Config", l2_3: "Virus Removal", l2_4: "SSD/RAM Upgrade", 
+                form_title: "Schedule Your Sunday Visit", l_name: "Name", l_phone: "WhatsApp", l_area: "Area", l_address: "Address", l_time: "Preferred Time", l_issue: "Tech Issue", 
+                opt_choose: "Select area...", geo_msg: "Location captured!", confirm_btn: "Confirm Slot Request", agree_text: "I agree to the", and_text: "and",
+                policy_text: "Book hardware before Friday 6PM. Confirmation call on Saturday.", h_success: "Booking Logged!", p_success: "Expect our call on Saturday."
+            },
+            hi: {
+                nav_home: "होम", nav_services: "सेवाएं", nav_pricing: "कीमतें", see_pricing: "कीमतें देखें", badge: "हर रविवार उपलब्ध", hero_title: "प्रोफेशनल डेस्कटॉप सपोर्ट इंजीनियर", 
+                hero_subtitle: "हर रविवार आपके दरवाजे पर कॉर्पोरेट-ग्रेड सपोर्ट।", book_btn: "बुक करें", about_title: "हम कौन हैं", about_desc: "पुणे के प्रमुख आईटी क्षेत्रों में कार्यरत इंजीनियरों की एक टीम।", 
+                f1: "एक्सपर्ट्स", f2: "सुरक्षित", expert_title: "विशेषज्ञता", service_title: "तकनीकी विशेषज्ञता", tier1: "L1 सपोर्ट", tier_office: "Office 365 सेटअप", tier2: "L2 सपोर्ट", 
+                l1_1: "प्रिंटर सेटअप", l1_2: "विंडोज सपोर्ट", l1_3: "ईमेल कॉन्फ़िगरेशन", l1_4: "सिस्टम क्लीनअप", o1: "इनस्टॉल और लाइसेंस", o2: "टीम्स सेटअप", o3: "ट्रबलशूटिंग", 
+                l2_1: "फ़ॉर्मेटिंग", l2_2: "राउटर कॉन्फ़िगरेशन", l2_3: "वायरस रिमूवल", l2_4: "रैम अपग्रेड", 
+                form_title: "रविवार विजिट शेड्यूल करें", l_name: "नाम", l_phone: "व्हाट्सएप", l_area: "क्षेत्र", l_address: "पता", l_time: "पसंदीदा समय", l_issue: "समस्या", 
+                opt_choose: "क्षेत्र चुनें...", geo_msg: "लोकेशन मिल गई!", confirm_btn: "अनुरोध भेजें", agree_text: "मैं सहमत हूँ", and_text: "और",
+                policy_text: "शुक्रवार शाम 6 बजे से पहले बुक करें। शनिवार शाम को कॉल आएगा।", h_success: "बुकिंग हो गई!", p_success: "शनिवार को कॉल का इंतज़ार करें।"
+            },
+            mr: {
+                nav_home: "होम", nav_services: "सेवा", nav_pricing: "दरपत्रक", see_pricing: "दरपत्रक पहा", badge: "प्रत्येक रविवारी उपलब्ध", 
+                hero_title: "प्रोफेशनल डेस्कटॉप सपोर्ट इंजिनिअर्स", hero_subtitle: "प्रत्येक रविवारी कॉर्पोरेट दर्जाचे तांत्रिक सहाय्य.", book_btn: "बुक करा", 
+                about_title: "आम्ही कोण आहोत", about_desc: "पुण्यातील नामांकित आयटी कंपन्यांमध्ये कार्यरत इंजिनिअर्स.", f1: "तज्ज्ञ", f2: "सुरक्षित", 
+                expert_title: "आमचे कौशल्य", service_title: "तांत्रिक वैशिष्ट्ये", tier1: "L1 सपोर्ट", tier_office: "Office 365 सेटअप", tier2: "L2 सपोर्ट", 
+                l1_1: "प्रिंटर सेटअप", l1_2: "विंडोज सपोर्ट", l1_3: "ईमेल सेटअप", l1_4: "सिस्टम क्लीनअप", o1: "इनस्टॉलेशन", o2: "टीम्स सेटअप", o3: "ट्रबलशूटिंग", 
+                l2_1: "फॉरमॅटिंग", l2_2: "राउटर कॉन्फिगरेशन", l2_3: "व्हायरस क्लीनिंग", l2_4: "रॅम अपग्रेड", 
+                form_title: "व्हिजिट शेड्यूल करा", l_name: "नाव", l_phone: "व्हॉट्सॲप", l_area: "परिसर", l_address: "पत्ता", l_time: "वेळ", l_issue: "तांत्रिक अडचण", 
+                opt_choose: "परिसर निवडा...", geo_msg: "लोकेशन मिळाले!", confirm_btn: "निश्चित करा", agree_text: "मी मान्य करतो", and_text: "आणि",
+                policy_text: "शुक्रवार संध्याकाळी ६ पूर्वी बुक करा. शनिवारी कॉल येईल.", h_success: "बुकिंग पूर्ण झाले!", p_success: "शनिवारी कॉलची वाट पहा."
+            }
+        };
+
+        window.changeLanguage = (lang) => {
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if(translations[lang][key]) el.innerText = translations[lang][key];
+            });
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
