@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Sunday Tech Squad</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --primary: #0d6efd; --dark: #121212; --warning: #ffc107; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; color: #333; }
+        
+        /* Login UI */
+        #loginOverlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--dark); z-index: 9999; display: flex; align-items: center; justify-content: center;
+        }
+        .login-card { width: 100%; max-width: 400px; padding: 30px; border-radius: 15px; background: white; }
+
+        /* Sidebar/Table Styling */
+        .admin-header { background: var(--dark); color: white; padding: 20px 0; }
+        .stat-card { border: none; border-radius: 12px; transition: 0.3s; }
+        .table-container { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .footer { background: #1a1a1a; color: #ccc; padding: 40px 0 20px; }
+        .hidden { display: none !important; }
+        .map-link { font-size: 0.75rem; text-decoration: none; display: inline-block; margin-top: 5px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div id="loginOverlay">
+        <div class="login-card shadow-lg text-center">
+            <i class="fas fa-user-lock fa-3x text-primary mb-3"></i>
+            <h4 class="fw-bold mb-4">Engineer Dashboard</h4>
+            <div class="text-start">
+                <div class="mb-3">
+                    <label class="form-label small fw-bold">Admin Email</label>
+                    <input type="email" id="adminEmail" class="form-control" placeholder="admin@sundaytech.com">
+                </div>
+                <div class="mb-4">
+                    <label class="form-label small fw-bold">Password</label>
+                    <input type="password" id="adminPass" class="form-control" placeholder="••••••••">
+                </div>
+                <button id="loginBtn" class="btn btn-primary w-100 py-2 fw-bold shadow">Login to Sunday Logs</button>
+            </div>
+            <p id="loginError" class="text-danger small mt-3 hidden">Invalid Credentials!</p>
+        </div>
+    </div>
+
+    <div id="adminContent" class="hidden">
+        
+        <nav class="navbar navbar-dark bg-dark">
+            <div class="container">
+                <span class="navbar-brand fw-bold"><i class="fas fa-terminal text-primary me-2"></i>ADMIN PANEL</span>
+                <button id="logoutBtn" class="btn btn-outline-danger btn-sm px-3">Logout</button>
+            </div>
+        </nav>
+
+        <div class="container py-5">
+            <div class="row g-3 mb-5 text-center">
+                <div class="col-md-3">
+                    <div class="card stat-card bg-primary text-white p-3 shadow-sm">
+                        <h6 class="small text-uppercase opacity-75">Total Bookings</h6>
+                        <h2 class="fw-bold mb-0" id="statTotal">0</h2>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card bg-warning text-dark p-3 shadow-sm">
+                        <h6 class="small text-uppercase opacity-75">Pending Visits</h6>
+                        <h2 class="fw-bold mb-0" id="statPending">0</h2>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card bg-info text-white p-3 shadow-sm">
+                        <h6 class="small text-uppercase opacity-75">Assigned</h6>
+                        <h2 class="fw-bold mb-0" id="statAssigned">0</h2>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card bg-success text-white p-3 shadow-sm">
+                        <h6 class="small text-uppercase opacity-75">Completed</h6>
+                        <h2 class="fw-bold mb-0" id="statDone">0</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">Call Logs & Assignments</h4>
+                    <button class="btn btn-sm btn-light border" onclick="location.reload()"><i class="fas fa-sync"></i> Refresh</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light text-muted small">
+                            <tr>
+                                <th>DATE/TIME</th>
+                                <th>CUSTOMER</th>
+                                <th>LOCATION & MAP</th>
+                                <th>ISSUE</th>
+                                <th>STATUS</th>
+                                <th>ASSIGNED TO</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingRows">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer text-center mt-5">
+            <div class="container">
+                <p class="small opacity-50 mb-0">&copy; 2026 Sunday Tech Squad | Admin UID: DyiOX...Mwiu2</p>
+            </div>
+        </footer>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
+        import { getFirestore, collection, query, orderBy, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC_6YTENak7fX0WkLl0CFejl9tIwE6Mrr0",
+            authDomain: "kiran-87cf6.firebaseapp.com",
+            projectId: "kiran-87cf6",
+            storageBucket: "kiran-87cf6.firebasestorage.app",
+            messagingSenderId: "967325743276",
+            appId: "1:967325743276:web:e368c82371944249114709"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const loginOverlay = document.getElementById('loginOverlay');
+        const adminContent = document.getElementById('adminContent');
+
+        document.getElementById('loginBtn').addEventListener('click', async () => {
+            const email = document.getElementById('adminEmail').value;
+            const pass = document.getElementById('adminPass').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, pass);
+            } catch (err) {
+                document.getElementById('loginError').classList.remove('hidden');
+                alert("Access Denied: " + err.message);
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
+
+        onAuthStateChanged(auth, (user) => {
+            if (user && user.uid === "DyiOX4O6TmSObxmCth7WewsMwiu2") {
+                loginOverlay.classList.add('hidden');
+                adminContent.classList.remove('hidden');
+                fetchBookings();
+            } else {
+                loginOverlay.classList.remove('hidden');
+                adminContent.classList.add('hidden');
+            }
+        });
+
+        function fetchBookings() {
+            const q = query(collection(db, "sunday_bookings"), orderBy("timestamp", "desc"));
+            
+            onSnapshot(q, (snapshot) => {
+                const tbody = document.getElementById('bookingRows');
+                tbody.innerHTML = "";
+                
+                let stats = { total: 0, pending: 0, assigned: 0, done: 0 };
+
+                snapshot.forEach((bookingDoc) => {
+                    const data = bookingDoc.data();
+                    const id = bookingDoc.id;
+                    const dateStr = data.timestamp ? data.timestamp.toDate().toLocaleString() : 'Just now';
+
+                    stats.total++;
+                    if(data.status === 'Completed') stats.done++;
+                    else if(data.assignedEngineer) stats.assigned++;
+                    else stats.pending++;
+
+                    // MAP LINK LOGIC
+                    let mapBtn = "";
+                    if (data.lat && data.lng && data.lat !== "N/A") {
+                        const mapUrl = `https://www.google.com/maps?q=${data.lat},${data.lng}`;
+                        mapBtn = `<a href="${mapUrl}" target="_blank" class="map-link text-primary"><i class="fas fa-map-marker-alt"></i> View on Map</a>`;
+                    }
+
+                    const row = `
+                        <tr>
+                            <td><small class="text-muted">${dateStr}</small></td>
+                            <td>
+                                <div class="fw-bold">${data.name}</div>
+                                <a href="https://wa.me/91${data.phone}" target="_blank" class="text-success text-decoration-none small">
+                                    <i class="fab fa-whatsapp"></i> ${data.phone}
+                                </a>
+                            </td>
+                            <td>
+                                <span class="badge bg-secondary mb-1">${data.area}</span><br>
+                                <small class="text-muted d-block">${data.address}</small>
+                                ${mapBtn}
+                            </td>
+                            <td><small>${data.issue}</small></td>
+                            <td>
+                                <select class="form-select form-select-sm" onchange="updateStatus('${id}', this.value)">
+                                    <option value="Pending" ${data.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                    <option value="Confirmed" ${data.status === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
+                                    <option value="Completed" ${data.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" placeholder="Name..." 
+                                    value="${data.assignedEngineer || ''}" 
+                                    onchange="assignEng('${id}', this.value)">
+                            </td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                });
+
+                document.getElementById('statTotal').innerText = stats.total;
+                document.getElementById('statPending').innerText = stats.pending;
+                document.getElementById('statAssigned').innerText = stats.assigned;
+                document.getElementById('statDone').innerText = stats.done;
+            });
+        }
+
+        window.updateStatus = async (id, val) => {
+            await updateDoc(doc(db, "sunday_bookings", id), { status: val });
+        };
+        window.assignEng = async (id, val) => {
+            await updateDoc(doc(db, "sunday_bookings", id), { assignedEngineer: val });
+        };
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

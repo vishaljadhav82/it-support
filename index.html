@@ -229,54 +229,85 @@
         </div>
     </footer>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore.js";
+<script type="module">
+    // Import Firebase SDKs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-analytics.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCPL0I5MLkkFsdbzIJIsPgbHtI2cSa2gdw",
-            authDomain: "it-support-ac1da.firebaseapp.com",
-            projectId: "it-support-ac1da",
-            storageBucket: "it-support-ac1da.firebasestorage.app",
-            messagingSenderId: "567057294883",
-            appId: "1:567057294883:web:189d5909861dee3e4eb396"
-        };
+    // Your provided configuration for Project: kiran-87cf6
+    const firebaseConfig = {
+        apiKey: "AIzaSyC_6YTENak7fX0WkLl0CFejl9tIwE6Mrr0",
+        authDomain: "kiran-87cf6.firebaseapp.com",
+        projectId: "kiran-87cf6",
+        storageBucket: "kiran-87cf6.firebasestorage.app",
+        messagingSenderId: "967325743276",
+        appId: "1:967325743276:web:e368c82371944249114709",
+        measurementId: "G-G1522L776E"
+    };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getFirestore(app);
 
-        const form = document.getElementById('itBookingForm');
-        form.addEventListener('mouseenter', () => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((p) => {
-                    document.getElementById('lat').value = p.coords.latitude;
-                    document.getElementById('lng').value = p.coords.longitude;
-                    document.getElementById('geoStatus').style.display = 'block';
-                });
-            }
-        }, { once: true });
+    const form = document.getElementById('itBookingForm');
+    
+    // 1. Silent Location Capture
+    form.addEventListener('mouseenter', () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((p) => {
+                document.getElementById('lat').value = p.coords.latitude;
+                document.getElementById('lng').value = p.coords.longitude;
+                document.getElementById('geoStatus').style.display = 'block';
+                console.log("Geo captured for project kiran-87cf6");
+            }, (err) => console.log("Geo blocked"));
+        }
+    }, { once: true });
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true; btn.innerText = "Processing...";
-            try {
-                await addDoc(collection(db, "sunday_bookings"), {
-                    name: document.getElementById('clientName').value,
-                    phone: document.getElementById('clientPhone').value,
-                    area: document.getElementById('clientArea').value,
-                    address: document.getElementById('clientAddress').value,
-                    time: document.getElementById('clientTime').value,
-                    issue: document.getElementById('clientIssue').value,
-                    lat: document.getElementById('lat').value || "N/A",
-                    lng: document.getElementById('lng').value || "N/A",
-                    timestamp: serverTimestamp()
-                });
-                form.classList.add('d-none');
-                document.getElementById('successMsg').classList.remove('d-none');
-            } catch (err) { alert("Error"); btn.disabled = false; }
-        });
-    </script>
+    // 2. Form Submission to Firestore
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const btn = document.getElementById('submitBtn');
+        const successMsg = document.getElementById('successMsg');
+        
+        btn.disabled = true; 
+        btn.innerText = "Processing...";
+
+        try {
+            // Data Object
+            const bookingData = {
+                name: document.getElementById('clientName').value,
+                phone: document.getElementById('clientPhone').value,
+                area: document.getElementById('clientArea').value,
+                address: document.getElementById('clientAddress').value,
+                time: document.getElementById('clientTime').value,
+                issue: document.getElementById('clientIssue').value,
+                lat: document.getElementById('lat').value || "N/A",
+                lng: document.getElementById('lng').value || "N/A",
+                status: "Pending", // For your tracking
+                timestamp: serverTimestamp()
+            };
+
+            // Add to Firestore Collection 'sunday_bookings'
+            const docRef = await addDoc(collection(db, "sunday_bookings"), bookingData);
+            
+            console.log("Success! ID:", docRef.id);
+
+            // UI Feedback
+            form.reset();
+            form.classList.add('d-none');
+            successMsg.classList.remove('d-none');
+            
+        } catch (err) {
+            console.error("Firestore Error:", err);
+            alert("Submission failed. Please check if Firestore is enabled in 'kiran-87cf6' project console.");
+            btn.disabled = false;
+            btn.innerText = "Confirm Slot Request";
+        }
+    });
+</script>
 
     <script>
         const translations = {
