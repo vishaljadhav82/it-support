@@ -1,175 +1,617 @@
 <!DOCTYPE html>
 <html lang="mr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Firebase Real-time Quiz - Stable Table</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
-        .quiz-card { background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 800px; padding: 25px; text-align: center; }
-        
-        /* Login Screen */
-        #login-screen { padding: 20px; }
-        input { padding: 10px; margin: 10px; width: 80%; border: 1px solid #ddd; border-radius: 5px; }
-        #login-btn { padding: 10px 30px; background: #2196f3; color: white; border: none; border-radius: 5px; cursor: pointer; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        /* Quiz Area */
-        #quiz-area { display: none; }
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
-        .opt-btn { padding: 15px; border: 2px solid #ddd; border-radius: 10px; background: white; cursor: pointer; }
-        .selected { background: #e3f2fd; border-color: #2196f3; }
+<title>Group Study Live Meeting Quiz</title>
 
-        /* Table Wrapper for Horizontal Scroll */
-        .table-wrapper { width: 100%; overflow-x: auto; margin-top: 20px; border: 1px solid #eee; }
-        table { width: 100%; min-width: 600px; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: center; white-space: nowrap; }
-        th { background: #333; color: white; }
-        .online-row { background-color: #fffde7; } /* Active players highlight */
-    </style>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f4f7f6;
+    padding:15px;
+}
+
+.main-layout{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    max-width:1400px;
+    margin:auto;
+}
+
+/* JITSI AREA */
+
+.video-section{
+    background:#fff;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+    padding:10px;
+}
+
+#jitsi-container{
+    width:100%;
+    height:500px;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+/* QUIZ CARD */
+
+.quiz-card{
+    background:white;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+    width:100%;
+    padding:25px;
+    text-align:center;
+}
+
+.question-text{
+    font-size:1.4rem;
+    font-weight:600;
+    margin-bottom:20px;
+    color:#333;
+    min-height:60px;
+}
+
+.options-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.opt-btn{
+    padding:15px;
+    border:2px solid #ddd;
+    border-radius:10px;
+    background:white;
+    cursor:pointer;
+    font-size:1rem;
+    transition:0.2s;
+}
+
+.opt-btn:hover{
+    background:#f5f5f5;
+}
+
+.timer-display{
+    font-size:2.5rem;
+    font-weight:bold;
+    color:#ff5722;
+    margin-bottom:10px;
+    visibility:hidden;
+}
+
+/* TABLE */
+
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+    margin-top:30px;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+
+table{
+    width:100%;
+    min-width:700px;
+    border-collapse:collapse;
+    background:#fff;
+    table-layout:auto;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:15px;
+    text-align:center;
+    white-space:nowrap;
+}
+
+th{
+    background-color:#333;
+    color:white;
+}
+
+/* STATUS */
+
+.p1-selected{
+    border:3px solid #2196f3 !important;
+    background:#e3f2fd;
+}
+
+.p2-selected{
+    border:3px solid #ff9800 !important;
+    background:#fff3e0;
+}
+
+.both-selected{
+    border:4px solid #9c27b0 !important;
+}
+
+.winner-row{
+    background-color:#fff9c4 !important;
+    font-weight:bold;
+}
+
+.status-badge{
+    font-weight:bold;
+}
+
+.right{
+    color:#2e7d32;
+}
+
+.wrong{
+    color:#c62828;
+}
+
+#restart-btn{
+    display:none;
+    margin:20px auto;
+    padding:12px 30px;
+    background:#4caf50;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:1.1rem;
+}
+
+#msg{
+    margin-top:10px;
+    font-weight:bold;
+    color:#666;
+}
+
+.top-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.study-title{
+    font-size:1.5rem;
+    font-weight:bold;
+}
+
+.room-box{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+input{
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+button{
+    cursor:pointer;
+}
+
+.control-btn{
+    background:#2196f3;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:8px;
+}
+
+@media(max-width:700px){
+
+    .options-grid{
+        grid-template-columns:1fr;
+    }
+
+    #jitsi-container{
+        height:350px;
+    }
+}
+</style>
 </head>
+
 <body>
 
-<div class="quiz-card">
-    <div id="login-screen">
-        <h2>Quiz Login</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <br>
-        <button id="login-btn" onclick="login()">Enter Page</button>
-        <p id="error-msg" style="color:red;"></p>
+<div class="main-layout">
+
+    <!-- TOP -->
+    <div class="video-section">
+
+        <div class="top-header">
+
+            <div class="study-title">
+                📚 Live Group Study Room
+            </div>
+
+            <div class="room-box">
+
+                <input type="text" id="username" placeholder="Enter Name">
+
+                <input type="text" id="roomname" placeholder="Enter Room ID">
+
+                <button class="control-btn" onclick="startMeeting()">
+                    Join Study Room
+                </button>
+
+            </div>
+
+        </div>
+
+        <div id="jitsi-container"></div>
+
     </div>
 
-    <div id="quiz-area">
-        <h3 id="current-user-display"></h3>
-        <div id="q-text" style="font-size: 1.2rem; font-weight: bold;">Loading Question...</div>
-        <div class="options-grid" id="opt-box"></div>
-        
+    <!-- QUIZ -->
+    <div class="quiz-card">
+
+        <div id="quiz-section">
+
+            <div id="timer" class="timer-display">30</div>
+
+            <div class="question-text" id="q-text">
+                Loading...
+            </div>
+
+            <div class="options-grid" id="opt-box"></div>
+
+            <div id="msg">
+                Tumcha option select kara!
+            </div>
+
+        </div>
+
+        <div id="final-header" style="display:none;">
+            <h2 style="color:#2e7d32;">
+                🏁 Final Evaluation Result
+            </h2>
+        </div>
+
+        <!-- SCOREBOARD -->
+
         <div class="table-wrapper">
+
             <table>
+
                 <thead>
+
                     <tr>
                         <th>Rank</th>
                         <th>User Name</th>
-                        <th>Online</th>
-                        <th>Selected Option</th>
-                        <th>Score</th>
+                        <th>Selected Answer</th>
+                        <th>Last Status</th>
+                        <th>Total Marks</th>
                     </tr>
+
                 </thead>
+
                 <tbody id="table-body">
-                    </tbody>
+
+                    <tr id="row-userA">
+                        <td class="rank-cell">1</td>
+                        <td><b>User A (You)</b></td>
+                        <td class="choice-cell">-</td>
+                        <td class="status-cell">-</td>
+                        <td class="score-cell">0</td>
+                    </tr>
+
+                    <tr id="row-userB">
+                        <td class="rank-cell">2</td>
+                        <td><b>User B (Bot)</b></td>
+                        <td class="choice-cell">-</td>
+                        <td class="status-cell">-</td>
+                        <td class="score-cell">0</td>
+                    </tr>
+
+                </tbody>
+
             </table>
+
         </div>
+
+        <button id="restart-btn" onclick="location.reload()">
+            Restart Quiz
+        </button>
+
     </div>
+
 </div>
 
+<!-- JITSI -->
+<script src="https://meet.jit.si/external_api.js"></script>
+
 <script>
-    // Firebase Config
-    const firebaseConfig = {
-        apiKey: "AIzaSyC_6YTENak7fX0WkLl0CFejl9tIwE6Mrr0",
-        authDomain: "kiran-87cf6.firebaseapp.com",
-        projectId: "kiran-87cf6",
-        storageBucket: "kiran-87cf6.firebasestorage.app",
-        messagingSenderId: "967325743276",
-        appId: "1:967325743276:web:e368c82371944249114709"
+
+let api = null;
+
+function startMeeting(){
+
+    const userName = document.getElementById("username").value || "Student";
+
+    const roomName = document.getElementById("roomname").value || "StudyRoom2026";
+
+    if(api){
+        api.dispose();
+    }
+
+    const domain = "meet.jit.si";
+
+    const options = {
+
+        roomName: roomName,
+
+        width: "100%",
+
+        height: 500,
+
+        parentNode: document.querySelector('#jitsi-container'),
+
+        userInfo: {
+            displayName: userName
+        },
+
+        configOverwrite: {
+
+            startWithAudioMuted: false,
+
+            startWithVideoMuted: false,
+
+            prejoinPageEnabled: false
+
+        },
+
+        interfaceConfigOverwrite: {
+
+            SHOW_JITSI_WATERMARK: false,
+
+            SHOW_BRAND_WATERMARK: false
+
+        }
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    api = new JitsiMeetExternalAPI(domain, options);
+}
 
-    let myUsername = "";
-    let myDocId = "";
-    const questions = [
-        { q: "Bharatatil sarvat mothi Nadi konti?", a: "Ganga", opts: ["Ganga", "Yamuna", "Godavari", "Sindhu"] }
-    ];
+/* QUIZ */
 
-    // --- 1. Login Logic ---
-    async function login() {
-        const userIn = document.getElementById("username").value;
-        const passIn = document.getElementById("password").value;
+const questions = [
 
-        const snapshot = await db.collection("users")
-            .where("username", "==", userIn)
-            .where("password", "==", passIn)
-            .get();
+{
+q:"Bharatatil sarvat mothi Nadi konti?",
+a:"Ganga",
+opts:["Ganga","Yamuna","Godavari","Sindhu"]
+},
 
-        if (!snapshot.empty) {
-            myDocId = snapshot.docs[0].id;
-            myUsername = userIn;
-            
-            // Mark user as Online
-            await db.collection("users").doc(myDocId).update({ isOnline: "Yes", selectedOption: "None" });
+{
+q:"Swarajya mhanje kay?",
+a:"Swatache Rajya",
+opts:["Parakiya Rajya","Swatache Rajya","Ingraj Rajya","Mughal Rajya"]
+},
 
-            document.getElementById("login-screen").style.display = "none";
-            document.getElementById("quiz-area").style.display = "block";
-            document.getElementById("current-user-display").innerText = "Welcome, " + myUsername;
+{
+q:"1 TB mhanje kiti GB?",
+a:"1024 GB",
+opts:["500 GB","1000 GB","1024 GB","2048 GB"]
+},
 
-            startSyncing();
-            loadQuestion();
-        } else {
-            document.getElementById("error-msg").innerText = "Wrong Username or Password!";
-        }
+{
+q:"CPU che full form kay?",
+a:"Central Processing Unit",
+opts:[
+"Central Processing Unit",
+"Computer Personal Unit",
+"Central Program Utility",
+"Computer Process Unit"
+]
+}
+
+];
+
+let currentQ = 0;
+
+let scoreA = 0;
+
+let scoreB = 0;
+
+let p1Choice = null;
+
+let p2Choice = null;
+
+function loadQuestion(){
+
+    if(currentQ >= questions.length){
+
+        document.getElementById("quiz-section").style.display="none";
+
+        document.getElementById("final-header").style.display="block";
+
+        document.getElementById("restart-btn").style.display="block";
+
+        return;
     }
 
-    // --- 2. Real-time Table Syncing ---
-    function startSyncing() {
-        db.collection("users").onSnapshot((snapshot) => {
-            const tableBody = document.getElementById("table-body");
-            tableBody.innerHTML = "";
-            
-            let allUsers = [];
-            snapshot.forEach(doc => allUsers.push(doc.data()));
+    const data = questions[currentQ];
 
-            // Sorting by Score
-            allUsers.sort((a, b) => (b.score || 0) - (a.score || 0));
+    document.getElementById("q-text").innerText =
+    (currentQ + 1) + ". " + data.q;
 
-            allUsers.forEach((user, index) => {
-                const isSyncing = user.isOnline === "Yes";
-                const row = document.createElement("tr");
-                if(isSyncing) row.classList.add("online-row");
+    const box = document.getElementById("opt-box");
 
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${user.username} ${user.username === myUsername ? "(You)" : ""}</td>
-                    <td>${user.isOnline}</td>
-                    <td>${isSyncing ? (user.selectedOption || "-") : "Watching..."}</td>
-                    <td>${user.score || 0}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        });
-    }
+    box.innerHTML = "";
 
-    // --- 3. Option Selection ---
-    function loadQuestion() {
-        const data = questions[0];
-        document.getElementById("q-text").innerText = data.q;
-        const box = document.getElementById("opt-box");
-        box.innerHTML = "";
+    p1Choice = null;
 
-        data.opts.forEach(opt => {
-            const btn = document.createElement("button");
-            btn.className = "opt-btn";
-            btn.innerText = opt;
-            btn.onclick = async () => {
-                // Update Firebase - Realtime change for all
-                await db.collection("users").doc(myDocId).update({ selectedOption: opt });
-                
-                // Visual feedback
-                document.querySelectorAll(".opt-btn").forEach(b => b.classList.remove("selected"));
-                btn.classList.add("selected");
-            };
-            box.appendChild(btn);
-        });
-    }
+    p2Choice = null;
 
-    // Window close zalya var Offline karne
-    window.addEventListener('beforeunload', function() {
-        if(myDocId) {
-            db.collection("users").doc(myDocId).update({ isOnline: "No", selectedOption: "None" });
+    document.getElementById("timer").style.visibility="hidden";
+
+    document.getElementById("msg").innerText =
+    "Tumcha option select kara!";
+
+    data.opts.forEach(o=>{
+
+        const btn = document.createElement("button");
+
+        btn.className = "opt-btn";
+
+        btn.innerText = o;
+
+        btn.onclick = ()=>{
+
+            if(p1Choice) return;
+
+            p1Choice = o;
+
+            btn.classList.add("p1-selected");
+
+            document.getElementById("row-userA")
+            .querySelector(".choice-cell")
+            .innerText = p1Choice;
+
+            setTimeout(botLogic,800);
+        };
+
+        box.appendChild(btn);
+    });
+}
+
+function botLogic(){
+
+    const data = questions[currentQ];
+
+    p2Choice =
+    data.opts[Math.floor(Math.random()*4)];
+
+    document.getElementById("row-userB")
+    .querySelector(".choice-cell")
+    .innerText = p2Choice;
+
+    document.querySelectorAll(".opt-btn").forEach(btn=>{
+
+        if(btn.innerText===p2Choice){
+
+            if(btn.classList.contains("p1-selected")){
+
+                btn.classList.replace(
+                    "p1-selected",
+                    "both-selected"
+                );
+
+            }else{
+
+                btn.classList.add("p2-selected");
+            }
         }
     });
+
+    startTimer();
+}
+
+function startTimer(){
+
+    let timeLeft = 30;
+
+    const timerEl = document.getElementById("timer");
+
+    timerEl.style.visibility = "visible";
+
+    timerEl.innerText = timeLeft;
+
+    const interval = setInterval(()=>{
+
+        timeLeft--;
+
+        timerEl.innerText = timeLeft;
+
+        if(timeLeft <= 0){
+
+            clearInterval(interval);
+
+            evaluate();
+        }
+
+    },1000);
+}
+
+function evaluate(){
+
+    const correct = questions[currentQ].a;
+
+    if(p1Choice===correct) scoreA++;
+
+    if(p2Choice===correct) scoreB++;
+
+    const rA = document.getElementById("row-userA");
+
+    rA.querySelector(".status-cell").innerHTML =
+    (p1Choice===correct)
+    ? "<span class='status-badge right'>✅ Right</span>"
+    : "<span class='status-badge wrong'>❌ Wrong</span>";
+
+    rA.querySelector(".score-cell").innerText = scoreA;
+
+    const rB = document.getElementById("row-userB");
+
+    rB.querySelector(".status-cell").innerHTML =
+    (p2Choice===correct)
+    ? "<span class='status-badge right'>✅ Right</span>"
+    : "<span class='status-badge wrong'>❌ Wrong</span>";
+
+    rB.querySelector(".score-cell").innerText = scoreB;
+
+    rA.classList.remove("winner-row");
+
+    rB.classList.remove("winner-row");
+
+    if(scoreA > scoreB){
+
+        rA.querySelector(".rank-cell").innerText = "1";
+
+        rB.querySelector(".rank-cell").innerText = "2";
+
+        rA.classList.add("winner-row");
+
+    }else if(scoreB > scoreA){
+
+        rA.querySelector(".rank-cell").innerText = "2";
+
+        rB.querySelector(".rank-cell").innerText = "1";
+
+        rB.classList.add("winner-row");
+
+    }else{
+
+        rA.querySelector(".rank-cell").innerText = "1";
+
+        rB.querySelector(".rank-cell").innerText = "1";
+    }
+
+    document.getElementById("msg").innerText =
+    "Correct Answer: " + correct;
+
+    setTimeout(()=>{
+
+        currentQ++;
+
+        loadQuestion();
+
+    },3000);
+}
+
+loadQuestion();
 
 </script>
 
