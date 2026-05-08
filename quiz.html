@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Real-time Quiz - Stable Table</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
+        .quiz-card { background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 800px; padding: 25px; text-align: center; }
+        
+        /* Login Screen */
+        #login-screen { padding: 20px; }
+        input { padding: 10px; margin: 10px; width: 80%; border: 1px solid #ddd; border-radius: 5px; }
+        #login-btn { padding: 10px 30px; background: #2196f3; color: white; border: none; border-radius: 5px; cursor: pointer; }
+
+        /* Quiz Area */
+        #quiz-area { display: none; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+        .opt-btn { padding: 15px; border: 2px solid #ddd; border-radius: 10px; background: white; cursor: pointer; }
+        .selected { background: #e3f2fd; border-color: #2196f3; }
+
+        /* Table Wrapper for Horizontal Scroll */
+        .table-wrapper { width: 100%; overflow-x: auto; margin-top: 20px; border: 1px solid #eee; }
+        table { width: 100%; min-width: 600px; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: center; white-space: nowrap; }
+        th { background: #333; color: white; }
+        .online-row { background-color: #fffde7; } /* Active players highlight */
+    </style>
+</head>
+<body>
+
+<div class="quiz-card">
+    <div id="login-screen">
+        <h2>Quiz Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <br>
+        <button id="login-btn" onclick="login()">Enter Page</button>
+        <p id="error-msg" style="color:red;"></p>
+    </div>
+
+    <div id="quiz-area">
+        <h3 id="current-user-display"></h3>
+        <div id="q-text" style="font-size: 1.2rem; font-weight: bold;">Loading Question...</div>
+        <div class="options-grid" id="opt-box"></div>
+        
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>User Name</th>
+                        <th>Online</th>
+                        <th>Selected Option</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Firebase Config
+    const firebaseConfig = {
+        apiKey: "AIzaSyC_6YTENak7fX0WkLl0CFejl9tIwE6Mrr0",
+        authDomain: "kiran-87cf6.firebaseapp.com",
+        projectId: "kiran-87cf6",
+        storageBucket: "kiran-87cf6.firebasestorage.app",
+        messagingSenderId: "967325743276",
+        appId: "1:967325743276:web:e368c82371944249114709"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    let myUsername = "";
+    let myDocId = "";
+    const questions = [
+        { q: "Bharatatil sarvat mothi Nadi konti?", a: "Ganga", opts: ["Ganga", "Yamuna", "Godavari", "Sindhu"] }
+    ];
+
+    // --- 1. Login Logic ---
+    async function login() {
+        const userIn = document.getElementById("username").value;
+        const passIn = document.getElementById("password").value;
+
+        const snapshot = await db.collection("users")
+            .where("username", "==", userIn)
+            .where("password", "==", passIn)
+            .get();
+
+        if (!snapshot.empty) {
+            myDocId = snapshot.docs[0].id;
+            myUsername = userIn;
+            
+            // Mark user as Online
+            await db.collection("users").doc(myDocId).update({ isOnline: "Yes", selectedOption: "None" });
+
+            document.getElementById("login-screen").style.display = "none";
+            document.getElementById("quiz-area").style.display = "block";
+            document.getElementById("current-user-display").innerText = "Welcome, " + myUsername;
+
+            startSyncing();
+            loadQuestion();
+        } else {
+            document.getElementById("error-msg").innerText = "Wrong Username or Password!";
+        }
+    }
+
+    // --- 2. Real-time Table Syncing ---
+    function startSyncing() {
+        db.collection("users").onSnapshot((snapshot) => {
+            const tableBody = document.getElementById("table-body");
+            tableBody.innerHTML = "";
+            
+            let allUsers = [];
+            snapshot.forEach(doc => allUsers.push(doc.data()));
+
+            // Sorting by Score
+            allUsers.sort((a, b) => (b.score || 0) - (a.score || 0));
+
+            allUsers.forEach((user, index) => {
+                const isSyncing = user.isOnline === "Yes";
+                const row = document.createElement("tr");
+                if(isSyncing) row.classList.add("online-row");
+
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${user.username} ${user.username === myUsername ? "(You)" : ""}</td>
+                    <td>${user.isOnline}</td>
+                    <td>${isSyncing ? (user.selectedOption || "-") : "Watching..."}</td>
+                    <td>${user.score || 0}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        });
+    }
+
+    // --- 3. Option Selection ---
+    function loadQuestion() {
+        const data = questions[0];
+        document.getElementById("q-text").innerText = data.q;
+        const box = document.getElementById("opt-box");
+        box.innerHTML = "";
+
+        data.opts.forEach(opt => {
+            const btn = document.createElement("button");
+            btn.className = "opt-btn";
+            btn.innerText = opt;
+            btn.onclick = async () => {
+                // Update Firebase - Realtime change for all
+                await db.collection("users").doc(myDocId).update({ selectedOption: opt });
+                
+                // Visual feedback
+                document.querySelectorAll(".opt-btn").forEach(b => b.classList.remove("selected"));
+                btn.classList.add("selected");
+            };
+            box.appendChild(btn);
+        });
+    }
+
+    // Window close zalya var Offline karne
+    window.addEventListener('beforeunload', function() {
+        if(myDocId) {
+            db.collection("users").doc(myDocId).update({ isOnline: "No", selectedOption: "None" });
+        }
+    });
+
+</script>
+
+</body>
+</html>
