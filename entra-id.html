@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Microsoft Entra ID Learning Path</title>
+
+  <style>
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      padding:20px;
+      background:#0f172a;
+      color:#ffffff;
+      font-family:Arial, sans-serif;
+      line-height:1.6;
+    }
+
+    .container{
+      max-width:1100px;
+      margin:auto;
+    }
+
+    h1{
+      text-align:center;
+      color:#60a5fa;
+      margin-bottom:30px;
+    }
+
+    .module{
+      background:#1e293b;
+      border-radius:12px;
+      padding:20px;
+      margin-bottom:20px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .module h2{
+      margin-top:0;
+      color:#38bdf8;
+      border-bottom:2px solid #334155;
+      padding-bottom:10px;
+    }
+
+    ul{
+      padding-left:20px;
+      margin:0;
+    }
+
+    li{
+      margin-bottom:10px;
+      color:#e2e8f0;
+    }
+
+    .badge{
+      display:inline-block;
+      background:#2563eb;
+      color:white;
+      padding:4px 10px;
+      border-radius:20px;
+      font-size:12px;
+      margin-bottom:10px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-bottom:20px;
+    }
+
+    .search{
+      width:100%;
+      max-width:350px;
+      padding:12px;
+      border:none;
+      border-radius:8px;
+      font-size:14px;
+      outline:none;
+    }
+
+    .count{
+      color:#93c5fd;
+      margin-top:10px;
+    }
+
+    @media(max-width:768px){
+      body{
+        padding:10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <h1>Microsoft Entra ID Learning Path</h1>
+
+  <div class="topbar">
+    <input
+      type="text"
+      id="searchInput"
+      class="search"
+      placeholder="Search topics..."
+      onkeyup="searchTopics()"
+    />
+
+    <div class="count">
+      Total Videos: 60
+    </div>
+  </div>
+
+  <!-- Module 1 -->
+  <div class="module">
+    <div class="badge">Module 1</div>
+    <h2>Introduction to Microsoft Entra ID</h2>
+
+    <ul>
+      <li>1. Introduction to Microsoft Entra ID | A Cloud Identity and Access Management</li>
+      <li>2. Active Directory vs Microsoft Entra ID | Basic Comparison</li>
+      <li>3. How to Create Microsoft Entra ID Free Subscription</li>
+      <li>4. A Microsoft Entra Admin Center Tour | A Navigation Guide</li>
+      <li>5. How to Add Custom Domain Name in Microsoft Entra ID Tenant</li>
+    </ul>
+  </div>
+
+  <!-- Module 2 -->
+  <div class="module">
+    <div class="badge">Module 2</div>
+    <h2>User Management</h2>
+
+    <ul>
+      <li>6. How to Create a New User Account in Microsoft Entra ID</li>
+      <li>7. How to Manage User Accounts in Microsoft Entra ID</li>
+      <li>8. How to Create Bulk User Accounts in Microsoft Entra ID using CSV File</li>
+      <li>9. How to Reset Users Password in Microsoft Entra ID</li>
+      <li>10. How to Restrict Access to Microsoft Entra Admin Center</li>
+    </ul>
+  </div>
+
+  <!-- Module 3 -->
+  <div class="module">
+    <div class="badge">Module 3</div>
+    <h2>Groups and Role Management</h2>
+
+    <ul>
+      <li>11. Understanding Groups in Microsoft Entra ID</li>
+      <li>12. How to Create Microsoft Entra Security Group</li>
+      <li>13. How to Manage Groups in Microsoft Entra ID</li>
+      <li>14. How to Create Microsoft 365 Group in Microsoft Entra ID</li>
+      <li>15. How to Assign Microsoft Entra Roles to User</li>
+      <li>16. How to Create and Assign Custom Security Attributes to User</li>
+      <li>17. Configure Self-Service Group Management in Microsoft Entra ID</li>
+      <li>18. Manage Microsoft Entra Groups using My Groups Access Panel</li>
+      <li>19. Restrict User Access to My Groups Access Panel</li>
+      <li>20. Prevent Users from Creating Groups in Microsoft Entra ID</li>
+      <li>21. How to Set Up Group Naming Policy in Microsoft Entra ID</li>
+    </ul>
+  </div>
+
+  <!-- Module 4 -->
+  <div class="module">
+    <div class="badge">Module 4</div>
+    <h2>Guest Users and External Collaboration</h2>
+
+    <ul>
+      <li>22. How to Add Microsoft Entra ID Guest User Account</li>
+      <li>23. How Users Can Invite Guest User to Microsoft Entra ID Tenant</li>
+      <li>24. Guest Users Sign in Through a Common Endpoint</li>
+      <li>25. Convert External Users to Internal Users</li>
+      <li>26. Restrict Guest User Invitations in Microsoft Entra ID Tenant</li>
+    </ul>
+  </div>
+
+  <!-- Module 5 -->
+  <div class="module">
+    <div class="badge">Module 5</div>
+    <h2>Security and Authentication</h2>
+
+    <ul>
+      <li>27. How to Configure User Settings in Microsoft Entra ID</li>
+      <li>28. How to Disable Security Defaults in Microsoft Entra ID Tenant</li>
+      <li>29. Set up Security info from a Sign in Page</li>
+      <li>30. How to use Temporary Access Pass</li>
+      <li>31. Add Multi-factor Authentication Methods</li>
+      <li>32. How to Configure Per user MFA</li>
+      <li>33. How to Enable Passwordless Authentication</li>
+      <li>34. Use Registration Campaign to Set up Microsoft Authenticator</li>
+      <li>35. Create and Manage Administrative units</li>
+    </ul>
+  </div>
+
+  <!-- Module 6 -->
+  <div class="module">
+    <div class="badge">Module 6</div>
+    <h2>Device Management</h2>
+
+    <ul>
+      <li>36. Microsoft Entra Joined Device vs Registered Device</li>
+      <li>37. How to join a Windows 11 device to Microsoft Entra ID</li>
+      <li>38. Join new Windows 11 to Microsoft Entra ID from OOBE Screen</li>
+      <li>39. How to Register a Windows 11 device</li>
+      <li>40. Require Multi Factor Auth To Join Devices</li>
+      <li>41. How to Manage Device Settings</li>
+      <li>42. Secure Local Admin Access on Microsoft Entra Joined Devices</li>
+      <li>43. Manage the Entra Joined Device Local Administrator role</li>
+    </ul>
+  </div>
+
+  <!-- Module 7 -->
+  <div class="module">
+    <div class="badge">Module 7</div>
+    <h2>Hybrid Identity and Synchronization</h2>
+
+    <ul>
+      <li>44. Install and Configure Microsoft Entra Connect Tool</li>
+      <li>45. Configure Microsoft Entra Hybrid Join Device</li>
+      <li>46. Configure Microsoft Entra Seamless Single Sign on</li>
+      <li>47. Set Up Microsoft Entra Connect Pass Through Authentication</li>
+      <li>48. Setup High Availability for Pass Through Authentication</li>
+      <li>49. Enable TLS 1.2 Support for Microsoft Entra Connect</li>
+      <li>50. Migrate Microsoft Entra Connect to a new server</li>
+      <li>51. Convert Synced On Premises Users to Cloud Only</li>
+      <li>52. Disable On-Premises Directory Sync</li>
+      <li>53. Uninstall Microsoft Entra Connect</li>
+    </ul>
+  </div>
+
+  <!-- Module 8 -->
+  <div class="module">
+    <div class="badge">Module 8</div>
+    <h2>Cloud Sync and Advanced Synchronization</h2>
+
+    <ul>
+      <li>54. Install and Configure Microsoft Entra Cloud Sync PART 1</li>
+      <li>55. Install and Configure Microsoft Entra Cloud Sync PART 2</li>
+      <li>56. On-Demand Provisioning in Microsoft Entra Connect Cloud Sync</li>
+      <li>57. Prepare a Nonroutable Domain for Connect Sync</li>
+      <li>58. Setup Directory Synchronization using Connect Sync</li>
+      <li>59. Configure Filtering in Microsoft Entra Connect Sync</li>
+      <li>60. Disable Prevent Accidental Deletes in Connect Sync</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+  function searchTopics() {
+
+    const input =
+      document.getElementById("searchInput")
+      .value
+      .toLowerCase();
+
+    const modules =
+      document.querySelectorAll(".module");
+
+    modules.forEach(module => {
+
+      const text =
+        module.innerText.toLowerCase();
+
+      if(text.includes(input)){
+        module.style.display = "block";
+      } else {
+        module.style.display = "none";
+      }
+
+    });
+  }
+</script>
+
+</body>
+</html>
