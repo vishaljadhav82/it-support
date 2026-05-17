@@ -1,358 +1,279 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sunday Tech Squad | Pune Professional IT Support</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root { --primary: #0d6efd; --dark: #121212; --secondary: #6c757d; --warning: #ffc107; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; color: #333; scroll-behavior: smooth; }
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1600');
-            background-size: cover; background-position: center; color: white; padding: 100px 0;
-        }
-        .card { border: none; border-radius: 15px; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .service-card:hover { transform: translateY(-10px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .sunday-badge { background: var(--warning); color: black; font-weight: bold; padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; }
-        .tier-header { border-radius: 15px 15px 0 0; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        #geoStatus { font-size: 0.85rem; color: #198754; font-weight: 500; display: none; }
-        .lang-dropdown .btn { border-radius: 20px; }
-        .footer { background: #1a1a1a; color: #ccc; padding: 60px 0 20px; }
-        .footer-link { color: #999; text-decoration: none; font-size: 0.9rem; margin: 0 10px; transition: 0.3s; }
-        .footer-link:hover { color: var(--warning); }
-        .policy-box { background: #fff3cd; border-left: 5px solid var(--warning); padding: 15px; border-radius: 10px; font-size: 0.9rem; margin-top: 20px; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Microsoft Entra ID Learning Path</title>
+
+  <style>
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      padding:20px;
+      background:#0f172a;
+      color:#ffffff;
+      font-family:Arial, sans-serif;
+      line-height:1.6;
+    }
+
+    .container{
+      max-width:1100px;
+      margin:auto;
+    }
+
+    h1{
+      text-align:center;
+      color:#60a5fa;
+      margin-bottom:30px;
+    }
+
+    .module{
+      background:#1e293b;
+      border-radius:12px;
+      padding:20px;
+      margin-bottom:20px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .module h2{
+      margin-top:0;
+      color:#38bdf8;
+      border-bottom:2px solid #334155;
+      padding-bottom:10px;
+    }
+
+    ul{
+      padding-left:20px;
+      margin:0;
+    }
+
+    li{
+      margin-bottom:10px;
+      color:#e2e8f0;
+    }
+
+    .badge{
+      display:inline-block;
+      background:#2563eb;
+      color:white;
+      padding:4px 10px;
+      border-radius:20px;
+      font-size:12px;
+      margin-bottom:10px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-bottom:20px;
+    }
+
+    .search{
+      width:100%;
+      max-width:350px;
+      padding:12px;
+      border:none;
+      border-radius:8px;
+      font-size:14px;
+      outline:none;
+    }
+
+    .count{
+      color:#93c5fd;
+      margin-top:10px;
+    }
+
+    @media(max-width:768px){
+      body{
+        padding:10px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#"><i class="fas fa-network-wired me-2 text-primary"></i>SUNDAY TECH SQUAD</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="#" data-key="nav_home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#services" data-key="nav_services">Services</a></li>
-                    <li class="nav-item"><a class="nav-link text-warning fw-bold" href="pricing.html" data-key="nav_pricing">View Pricing</a></li>
-                    <div class="dropdown mx-lg-3 lang-dropdown">
-                        <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-language me-1"></i> Language
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end shadow">
-                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="changeLanguage('en')">English</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="changeLanguage('hi')">हिंदी (Hindi)</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="changeLanguage('mr')">मराठी (Marathi)</a></li>
-                        </ul>
-                    </div>
-                    <span class="sunday-badge d-none d-md-block" data-key="badge">Available Every Sunday</span>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<div class="container">
 
-    <header class="hero text-center">
-        <div class="container">
-            <h1 class="display-4 fw-bold mb-3" data-key="hero_title">Professional Desktop Support Engineers</h1>
-            <p class="lead mb-4 opacity-75" data-key="hero_subtitle">Corporate-grade L1 & L2 support at your doorstep, exclusively on Sundays.</p>
-            <div class="d-flex justify-content-center gap-3 flex-wrap">
-                <a href="#booking" class="btn btn-primary btn-lg px-5 shadow" data-key="book_btn">Book Now</a>
-                <a href="pricing.html" class="btn btn-outline-light btn-lg px-4 shadow" data-key="see_pricing">See Pricing</a>
-                <a href="https://wa.me/91XXXXXXXXXX" class="btn btn-success btn-lg px-4 shadow"><i class="fab fa-whatsapp"></i></a>
-            </div>
-        </div>
-    </header>
+  <h1>Microsoft Entra ID Learning Path</h1>
 
-    <section class="py-5 bg-white border-bottom">
-        <div class="container">
-            <div class="row align-items-center g-5">
-                <div class="col-lg-6">
-                    <h2 class="fw-bold mb-4" data-key="about_title">Who We Are</h2>
-                    <p class="text-muted mb-4" data-key="about_desc">We are a team of active <strong>Desktop Support Engineers</strong> working in Pune's leading IT sectors. We bring our L1 & L2 expertise to fix your home and small-office tech issues every Sunday.</p>
-                    <div class="row g-3">
-                        <div class="col-sm-6">
-                            <div class="d-flex align-items-center mb-2">
-                                <i class="fas fa-user-tie text-primary me-2"></i>
-                                <span class="fw-bold" data-key="f1">Industry Professionals</span>
-                            </div>
-                            <p class="small text-muted" data-key="f1_d">1+ years of corporate experience.</p>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="d-flex align-items-center mb-2">
-                                <i class="fas fa-lock text-primary me-2"></i>
-                                <span class="fw-bold" data-key="f2">Secure & Private</span>
-                            </div>
-                            <p class="small text-muted" data-key="f2_d">Strict data privacy protocols.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="p-4 bg-light rounded shadow-sm border-start border-primary border-5">
-                        <h5 class="fw-bold mb-3" data-key="expert_title"><i class="fas fa-certificate text-warning me-2"></i>Expertise Focus</h5>
-                        <p class="small" data-key="expert_desc">Specialized in Microsoft Ecosystems, Network Infrastructure, and Office 365 Setup.</p>
-                        <div class="d-flex flex-wrap gap-2 mt-3">
-                            <span class="badge bg-secondary">Office 365</span>
-                            <span class="badge bg-secondary">Win 10/11</span>
-                            <span class="badge bg-secondary">Printer sharing</span>
-                            <span class="badge bg-secondary">L2 Support</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <div class="topbar">
+    <input
+      type="text"
+      id="searchInput"
+      class="search"
+      placeholder="Search topics..."
+      onkeyup="searchTopics()"
+    />
 
-    <section id="services" class="py-5">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="fw-bold" data-key="service_title">L1 & L2 Technical Specialties</h2>
-                <p class="text-muted" data-key="service_subtitle">Full-stack desktop and application support.</p>
-            </div>
-            <div class="row g-4">
-                <div class="col-lg-4">
-                    <div class="card h-100 service-card">
-                        <div class="card-header bg-primary text-white tier-header p-3" data-key="tier1">L1 Support</div>
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush small">
-                                <li class="list-group-item"><i class="fas fa-print text-primary me-2"></i> <span data-key="l1_1">Printer Setup & Sharing</span></li>
-                                <li class="list-group-item"><i class="fas fa-window-restore text-primary me-2"></i> <span data-key="l1_2">Windows Support</span></li>
-                                <li class="list-group-item"><i class="fas fa-envelope text-primary me-2"></i> <span data-key="l1_3">Email & Outlook Config</span></li>
-                                <li class="list-group-item"><i class="fas fa-broom text-primary me-2"></i> <span data-key="l1_4">System Cleanup</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="card h-100 service-card border-primary">
-                        <div class="card-header bg-white text-primary tier-header p-3" data-key="tier_office">Office 365 Setup</div>
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush small text-center">
-                                <li class="list-group-item border-0"><i class="fab fa-microsoft fa-3x text-primary mb-2"></i></li>
-                                <li class="list-group-item"><span data-key="o1">Installation & Licensing</span></li>
-                                <li class="list-group-item"><span data-key="o2">Teams & OneDrive Setup</span></li>
-                                <li class="list-group-item"><span data-key="o3">App Troubleshooting</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="card h-100 service-card">
-                        <div class="card-header bg-dark text-white tier-header p-3" data-key="tier2">L2 Support</div>
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush small">
-                                <li class="list-group-item"><i class="fas fa-disc text-primary me-2"></i> <span data-key="l2_1">OS Formatting & Partition</span></li>
-                                <li class="list-group-item"><i class="fas fa-network-wired text-primary me-2"></i> <span data-key="l2_2">Advanced Router Config</span></li>
-                                <li class="list-group-item"><i class="fas fa-shield-virus text-primary me-2"></i> <span data-key="l2_3">Virus Removal & Security</span></li>
-                                <li class="list-group-item"><i class="fas fa-memory text-primary me-2"></i> <span data-key="l2_4">SSD/RAM Upgrade</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="count">
+      Total Videos: 60
+    </div>
+  </div>
 
-    <section id="booking" class="py-5 bg-white">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <div class="card shadow-lg p-4 p-md-5">
-                        <h3 class="fw-bold mb-4 text-center" data-key="form_title">Schedule Your Sunday Visit</h3>
-                        <form id="itBookingForm">
-                            <div class="row">
-                                <div class="col-md-4 mb-3"><label class="form-label fw-bold" data-key="l_name">Name</label><input type="text" class="form-control" id="clientName" required></div>
-                                <div class="col-md-4 mb-3"><label class="form-label fw-bold" data-key="l_phone">WhatsApp</label><input type="tel" class="form-control" id="clientPhone" required></div>
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label fw-bold" data-key="l_area">Area (Pune)</label>
-                                    <select class="form-select" id="clientArea" required>
-                                        <option value="" data-key="opt_choose">Select area...</option>
-                                        <option>Hinjewadi / Wakad</option><option>Baner / Balewadi</option><option>Kothrud / Bavdhan</option><option>Viman Nagar / Kharadi</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="mb-3"><label class="form-label fw-bold" data-key="l_address">Detailed Address / Landmark</label><textarea class="form-control" id="clientAddress" rows="2" required></textarea></div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label fw-bold" data-key="l_time">Preferred Sunday Time</label>
-                                    <select class="form-select" id="clientTime">
-                                        <option value="Morning">Morning (10AM - 1PM)</option>
-                                        <option value="Afternoon">Afternoon (1PM - 4PM)</option>
-                                        <option value="Evening">Evening (4PM - 7PM)</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3"><label class="form-label fw-bold" data-key="l_issue">Describe Tech Issue</label><input type="text" class="form-control" id="clientIssue" required></div>
-                            </div>
+  <!-- Module 1 -->
+  <div class="module">
+    <div class="badge">Module 1</div>
+    <h2>Introduction to Microsoft Entra ID</h2>
 
-                            <div class="mb-4 form-check">
-                                <input type="checkbox" class="form-check-input" id="termsCheck" required>
-                                <label class="form-check-label small" for="termsCheck">
-                                    <span data-key="agree_text">I agree to the</span> 
-                                    <a href="terms.html" target="_blank" class="text-primary">Terms</a>, 
-                                    <a href="privacy.html" target="_blank" class="text-primary">Privacy Policy</a> 
-                                    <span data-key="and_text">and</span> 
-                                    <a href="disclaimer.html" target="_blank" class="text-primary">Disclaimer</a>.
-                                </label>
-                            </div>
+    <ul>
+      <li>1. Introduction to Microsoft Entra ID | A Cloud Identity and Access Management</li>
+      <li>2. Active Directory vs Microsoft Entra ID | Basic Comparison</li>
+      <li>3. How to Create Microsoft Entra ID Free Subscription</li>
+      <li>4. A Microsoft Entra Admin Center Tour | A Navigation Guide</li>
+      <li>5. How to Add Custom Domain Name in Microsoft Entra ID Tenant</li>
+    </ul>
+  </div>
 
-                            <input type="hidden" id="lat"><input type="hidden" id="lng">
-                            <div id="geoStatus" class="mb-3 text-center"><i class="fas fa-map-marker-alt"></i> <span data-key="geo_msg">Location captured for Sunday route!</span></div>
-                            
-                            <button type="submit" id="submitBtn" class="btn btn-primary btn-lg w-100 fw-bold" data-key="confirm_btn">Confirm Slot Request</button>
-                        </form>
-                        
-                        <div class="policy-box text-center mt-3">
-                            <p class="mb-0"><strong>Note:</strong> <span data-key="policy_text">Book hardware upgrades before Friday 6PM. Confirmation call on Saturday evening.</span></p>
-                        </div>
-                        
-                        <div id="successMsg" class="alert alert-success mt-4 d-none text-center">
-                            <h5 class="fw-bold" data-key="h_success">Booking Logged!</h5>
-                            <p class="mb-0" data-key="p_success">Expect our call on Saturday evening.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- Module 2 -->
+  <div class="module">
+    <div class="badge">Module 2</div>
+    <h2>User Management</h2>
 
-    <footer class="footer text-center text-white">
-        <div class="container">
-            <h5 class="fw-bold mb-3">Sunday Tech Squad Pune</h5>
-            <p class="small opacity-50 mb-4">&copy; 2026 | Professional Support Engineers Only</p>
-            <div class="d-flex justify-content-center flex-wrap mb-3">
-                <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
-                <a href="terms.html" class="footer-link">Terms of Service</a>
-                <a href="disclaimer.html" class="footer-link">Disclaimer</a>
-            </div>
-        </div>
-    </footer>
+    <ul>
+      <li>6. How to Create a New User Account in Microsoft Entra ID</li>
+      <li>7. How to Manage User Accounts in Microsoft Entra ID</li>
+      <li>8. How to Create Bulk User Accounts in Microsoft Entra ID using CSV File</li>
+      <li>9. How to Reset Users Password in Microsoft Entra ID</li>
+      <li>10. How to Restrict Access to Microsoft Entra Admin Center</li>
+    </ul>
+  </div>
 
-<script type="module">
-    // Import Firebase SDKs
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-analytics.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore.js";
+  <!-- Module 3 -->
+  <div class="module">
+    <div class="badge">Module 3</div>
+    <h2>Groups and Role Management</h2>
 
-    // Your provided configuration for Project: kiran-87cf6
-    const firebaseConfig = {
-        apiKey: "AIzaSyC_6YTENak7fX0WkLl0CFejl9tIwE6Mrr0",
-        authDomain: "kiran-87cf6.firebaseapp.com",
-        projectId: "kiran-87cf6",
-        storageBucket: "kiran-87cf6.firebasestorage.app",
-        messagingSenderId: "967325743276",
-        appId: "1:967325743276:web:e368c82371944249114709",
-        measurementId: "G-G1522L776E"
-    };
+    <ul>
+      <li>11. Understanding Groups in Microsoft Entra ID</li>
+      <li>12. How to Create Microsoft Entra Security Group</li>
+      <li>13. How to Manage Groups in Microsoft Entra ID</li>
+      <li>14. How to Create Microsoft 365 Group in Microsoft Entra ID</li>
+      <li>15. How to Assign Microsoft Entra Roles to User</li>
+      <li>16. How to Create and Assign Custom Security Attributes to User</li>
+      <li>17. Configure Self-Service Group Management in Microsoft Entra ID</li>
+      <li>18. Manage Microsoft Entra Groups using My Groups Access Panel</li>
+      <li>19. Restrict User Access to My Groups Access Panel</li>
+      <li>20. Prevent Users from Creating Groups in Microsoft Entra ID</li>
+      <li>21. How to Set Up Group Naming Policy in Microsoft Entra ID</li>
+    </ul>
+  </div>
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const db = getFirestore(app);
+  <!-- Module 4 -->
+  <div class="module">
+    <div class="badge">Module 4</div>
+    <h2>Guest Users and External Collaboration</h2>
 
-    const form = document.getElementById('itBookingForm');
-    
-    // 1. Silent Location Capture
-    form.addEventListener('mouseenter', () => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((p) => {
-                document.getElementById('lat').value = p.coords.latitude;
-                document.getElementById('lng').value = p.coords.longitude;
-                document.getElementById('geoStatus').style.display = 'block';
-                console.log("Geo captured for project kiran-87cf6");
-            }, (err) => console.log("Geo blocked"));
-        }
-    }, { once: true });
+    <ul>
+      <li>22. How to Add Microsoft Entra ID Guest User Account</li>
+      <li>23. How Users Can Invite Guest User to Microsoft Entra ID Tenant</li>
+      <li>24. Guest Users Sign in Through a Common Endpoint</li>
+      <li>25. Convert External Users to Internal Users</li>
+      <li>26. Restrict Guest User Invitations in Microsoft Entra ID Tenant</li>
+    </ul>
+  </div>
 
-    // 2. Form Submission to Firestore
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const btn = document.getElementById('submitBtn');
-        const successMsg = document.getElementById('successMsg');
-        
-        btn.disabled = true; 
-        btn.innerText = "Processing...";
+  <!-- Module 5 -->
+  <div class="module">
+    <div class="badge">Module 5</div>
+    <h2>Security and Authentication</h2>
 
-        try {
-            // Data Object
-            const bookingData = {
-                name: document.getElementById('clientName').value,
-                phone: document.getElementById('clientPhone').value,
-                area: document.getElementById('clientArea').value,
-                address: document.getElementById('clientAddress').value,
-                time: document.getElementById('clientTime').value,
-                issue: document.getElementById('clientIssue').value,
-                lat: document.getElementById('lat').value || "N/A",
-                lng: document.getElementById('lng').value || "N/A",
-                status: "Pending", // For your tracking
-                timestamp: serverTimestamp()
-            };
+    <ul>
+      <li>27. How to Configure User Settings in Microsoft Entra ID</li>
+      <li>28. How to Disable Security Defaults in Microsoft Entra ID Tenant</li>
+      <li>29. Set up Security info from a Sign in Page</li>
+      <li>30. How to use Temporary Access Pass</li>
+      <li>31. Add Multi-factor Authentication Methods</li>
+      <li>32. How to Configure Per user MFA</li>
+      <li>33. How to Enable Passwordless Authentication</li>
+      <li>34. Use Registration Campaign to Set up Microsoft Authenticator</li>
+      <li>35. Create and Manage Administrative units</li>
+    </ul>
+  </div>
 
-            // Add to Firestore Collection 'sunday_bookings'
-            const docRef = await addDoc(collection(db, "sunday_bookings"), bookingData);
-            
-            console.log("Success! ID:", docRef.id);
+  <!-- Module 6 -->
+  <div class="module">
+    <div class="badge">Module 6</div>
+    <h2>Device Management</h2>
 
-            // UI Feedback
-            form.reset();
-            form.classList.add('d-none');
-            successMsg.classList.remove('d-none');
-            
-        } catch (err) {
-            console.error("Firestore Error:", err);
-            alert("Submission failed. Please check if Firestore is enabled in 'kiran-87cf6' project console.");
-            btn.disabled = false;
-            btn.innerText = "Confirm Slot Request";
-        }
+    <ul>
+      <li>36. Microsoft Entra Joined Device vs Registered Device</li>
+      <li>37. How to join a Windows 11 device to Microsoft Entra ID</li>
+      <li>38. Join new Windows 11 to Microsoft Entra ID from OOBE Screen</li>
+      <li>39. How to Register a Windows 11 device</li>
+      <li>40. Require Multi Factor Auth To Join Devices</li>
+      <li>41. How to Manage Device Settings</li>
+      <li>42. Secure Local Admin Access on Microsoft Entra Joined Devices</li>
+      <li>43. Manage the Entra Joined Device Local Administrator role</li>
+    </ul>
+  </div>
+
+  <!-- Module 7 -->
+  <div class="module">
+    <div class="badge">Module 7</div>
+    <h2>Hybrid Identity and Synchronization</h2>
+
+    <ul>
+      <li>44. Install and Configure Microsoft Entra Connect Tool</li>
+      <li>45. Configure Microsoft Entra Hybrid Join Device</li>
+      <li>46. Configure Microsoft Entra Seamless Single Sign on</li>
+      <li>47. Set Up Microsoft Entra Connect Pass Through Authentication</li>
+      <li>48. Setup High Availability for Pass Through Authentication</li>
+      <li>49. Enable TLS 1.2 Support for Microsoft Entra Connect</li>
+      <li>50. Migrate Microsoft Entra Connect to a new server</li>
+      <li>51. Convert Synced On Premises Users to Cloud Only</li>
+      <li>52. Disable On-Premises Directory Sync</li>
+      <li>53. Uninstall Microsoft Entra Connect</li>
+    </ul>
+  </div>
+
+  <!-- Module 8 -->
+  <div class="module">
+    <div class="badge">Module 8</div>
+    <h2>Cloud Sync and Advanced Synchronization</h2>
+
+    <ul>
+      <li>54. Install and Configure Microsoft Entra Cloud Sync PART 1</li>
+      <li>55. Install and Configure Microsoft Entra Cloud Sync PART 2</li>
+      <li>56. On-Demand Provisioning in Microsoft Entra Connect Cloud Sync</li>
+      <li>57. Prepare a Nonroutable Domain for Connect Sync</li>
+      <li>58. Setup Directory Synchronization using Connect Sync</li>
+      <li>59. Configure Filtering in Microsoft Entra Connect Sync</li>
+      <li>60. Disable Prevent Accidental Deletes in Connect Sync</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+  function searchTopics() {
+
+    const input =
+      document.getElementById("searchInput")
+      .value
+      .toLowerCase();
+
+    const modules =
+      document.querySelectorAll(".module");
+
+    modules.forEach(module => {
+
+      const text =
+        module.innerText.toLowerCase();
+
+      if(text.includes(input)){
+        module.style.display = "block";
+      } else {
+        module.style.display = "none";
+      }
+
     });
+  }
 </script>
 
-    <script>
-        const translations = {
-            en: {
-                nav_home: "Home", nav_services: "Services", nav_pricing: "View Pricing", see_pricing: "See Pricing", badge: "Available Every Sunday", 
-                hero_title: "Professional Desktop Support Engineers", hero_subtitle: "Corporate-grade L1 & L2 support, exclusively on Sundays.", book_btn: "Book Now", 
-                about_title: "Who We Are", about_desc: "Active Desktop Support Engineers working in Pune's leading IT sectors.", f1: "Industry Pros", f2: "Secure & Private", 
-                expert_title: "Expertise Focus", service_title: "Technical Specialties", tier1: "L1 Support", tier_office: "Office 365 Setup", tier2: "L2 Support", 
-                l1_1: "Printer Setup", l1_2: "Windows Support", l1_3: "Email Config", l1_4: "System Cleanup", 
-                o1: "Install & License", o2: "Teams Setup", o3: "Troubleshooting", 
-                l2_1: "Formatting", l2_2: "Router Config", l2_3: "Virus Removal", l2_4: "SSD/RAM Upgrade", 
-                form_title: "Schedule Your Sunday Visit", l_name: "Name", l_phone: "WhatsApp", l_area: "Area", l_address: "Address", l_time: "Preferred Time", l_issue: "Tech Issue", 
-                opt_choose: "Select area...", geo_msg: "Location captured!", confirm_btn: "Confirm Slot Request", agree_text: "I agree to the", and_text: "and",
-                policy_text: "Book hardware before Friday 6PM. Confirmation call on Saturday.", h_success: "Booking Logged!", p_success: "Expect our call on Saturday."
-            },
-            hi: {
-                nav_home: "होम", nav_services: "सेवाएं", nav_pricing: "कीमतें", see_pricing: "कीमतें देखें", badge: "हर रविवार उपलब्ध", hero_title: "प्रोफेशनल डेस्कटॉप सपोर्ट इंजीनियर", 
-                hero_subtitle: "हर रविवार आपके दरवाजे पर कॉर्पोरेट-ग्रेड सपोर्ट।", book_btn: "बुक करें", about_title: "हम कौन हैं", about_desc: "पुणे के प्रमुख आईटी क्षेत्रों में कार्यरत इंजीनियरों की एक टीम।", 
-                f1: "एक्सपर्ट्स", f2: "सुरक्षित", expert_title: "विशेषज्ञता", service_title: "तकनीकी विशेषज्ञता", tier1: "L1 सपोर्ट", tier_office: "Office 365 सेटअप", tier2: "L2 सपोर्ट", 
-                l1_1: "प्रिंटर सेटअप", l1_2: "विंडोज सपोर्ट", l1_3: "ईमेल कॉन्फ़िगरेशन", l1_4: "सिस्टम क्लीनअप", o1: "इनस्टॉल और लाइसेंस", o2: "टीम्स सेटअप", o3: "ट्रबलशूटिंग", 
-                l2_1: "फ़ॉर्मेटिंग", l2_2: "राउटर कॉन्फ़िगरेशन", l2_3: "वायरस रिमूवल", l2_4: "रैम अपग्रेड", 
-                form_title: "रविवार विजिट शेड्यूल करें", l_name: "नाम", l_phone: "व्हाट्सएप", l_area: "क्षेत्र", l_address: "पता", l_time: "पसंदीदा समय", l_issue: "समस्या", 
-                opt_choose: "क्षेत्र चुनें...", geo_msg: "लोकेशन मिल गई!", confirm_btn: "अनुरोध भेजें", agree_text: "मैं सहमत हूँ", and_text: "और",
-                policy_text: "शुक्रवार शाम 6 बजे से पहले बुक करें। शनिवार शाम को कॉल आएगा।", h_success: "बुकिंग हो गई!", p_success: "शनिवार को कॉल का इंतज़ार करें।"
-            },
-            mr: {
-                nav_home: "होम", nav_services: "सेवा", nav_pricing: "दरपत्रक", see_pricing: "दरपत्रक पहा", badge: "प्रत्येक रविवारी उपलब्ध", 
-                hero_title: "प्रोफेशनल डेस्कटॉप सपोर्ट इंजिनिअर्स", hero_subtitle: "प्रत्येक रविवारी कॉर्पोरेट दर्जाचे तांत्रिक सहाय्य.", book_btn: "बुक करा", 
-                about_title: "आम्ही कोण आहोत", about_desc: "पुण्यातील नामांकित आयटी कंपन्यांमध्ये कार्यरत इंजिनिअर्स.", f1: "तज्ज्ञ", f2: "सुरक्षित", 
-                expert_title: "आमचे कौशल्य", service_title: "तांत्रिक वैशिष्ट्ये", tier1: "L1 सपोर्ट", tier_office: "Office 365 सेटअप", tier2: "L2 सपोर्ट", 
-                l1_1: "प्रिंटर सेटअप", l1_2: "विंडोज सपोर्ट", l1_3: "ईमेल सेटअप", l1_4: "सिस्टम क्लीनअप", o1: "इनस्टॉलेशन", o2: "टीम्स सेटअप", o3: "ट्रबलशूटिंग", 
-                l2_1: "फॉरमॅटिंग", l2_2: "राउटर कॉन्फिगरेशन", l2_3: "व्हायरस क्लीनिंग", l2_4: "रॅम अपग्रेड", 
-                form_title: "व्हिजिट शेड्यूल करा", l_name: "नाव", l_phone: "व्हॉट्सॲप", l_area: "परिसर", l_address: "पत्ता", l_time: "वेळ", l_issue: "तांत्रिक अडचण", 
-                opt_choose: "परिसर निवडा...", geo_msg: "लोकेशन मिळाले!", confirm_btn: "निश्चित करा", agree_text: "मी मान्य करतो", and_text: "आणि",
-                policy_text: "शुक्रवार संध्याकाळी ६ पूर्वी बुक करा. शनिवारी कॉल येईल.", h_success: "बुकिंग पूर्ण झाले!", p_success: "शनिवारी कॉलची वाट पहा."
-            }
-        };
-
-        window.changeLanguage = (lang) => {
-            document.querySelectorAll('[data-key]').forEach(el => {
-                const key = el.getAttribute('data-key');
-                if(translations[lang][key]) el.innerText = translations[lang][key];
-            });
-        };
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
