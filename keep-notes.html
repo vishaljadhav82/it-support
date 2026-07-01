@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <title>My Keep Notes</title>
+    <!-- MathJax for Math Rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC_6YTENak7fX0WkLl0CFejl9tIwE6Mrr0",
+            authDomain: "kiran-87cf6.firebaseapp.com",
+            projectId: "kiran-87cf6",
+            storageBucket: "kiran-87cf6.firebasestorage.app",
+            messagingSenderId: "967325743276",
+            appId: "1:967325743276:web:e368c82371944249114709"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // नोट सेव्ह करण्याचे फंक्शन
+        window.saveNote = async () => {
+            const noteText = document.getElementById("noteInput").value;
+            await addDoc(collection(db, "notes"), { text: noteText });
+            alert("Note Saved!");
+            location.reload();
+        };
+    </script>
+
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f1f3f4; }
+        .note-card { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        textarea { width: 100%; height: 80px; }
+    </style>
+</head>
+<body>
+
+    <h2>माझ्या नोट्स (Math Support)</h2>
+    <textarea id="noteInput" placeholder="येथे तुमची नोट लिहा... (उदा. \\( E=mc^2 \\))"></textarea>
+    <button onclick="saveNote()">सेव्ह करा</button>
+
+    <div id="notesContainer">
+        <!-- इथे नोट्स दिसतील -->
+    </div>
+
+    <script>
+        // हे स्क्रिप्ट नोट्स लोड करेल (उदाहरणादाखल)
+        console.log("Firebase initialized. Note app ready.");
+        // इथे तुम्ही getDocs वापरून नोट्स डिस्प्ले करू शकता.
+    </script>
+</body>
+</html>
