@@ -3,43 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>माझ्या नोट्स - Google Keep Style</title>
+    <title>माझ्या नोट्स - इमेज गॅलरी</title>
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- MathJax (For Math Rendering) -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <style>
-        body { background-color: #f1f3f4; }
-        .note-card { background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.12); transition: 0.3s; }
-        .note-card:hover { box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-        .input-box { max-width: 600px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .card-text { white-space: pre-wrap; font-size: 1rem; }
+        body { background-color: #f8f9fa; }
+        .notes-grid { column-count: 3; column-gap: 15px; }
+        @media (max-width: 992px) { .notes-grid { column-count: 2; } }
+        @media (max-width: 576px) { .notes-grid { column-count: 1; } }
+        
+        .note-card { break-inside: avoid; margin-bottom: 15px; background: white; border-radius: 12px; border: 1px solid #e0e0e0; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .input-box { max-width: 600px; margin: 30px auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .card-text { white-space: pre-wrap; color: #555; word-wrap: break-word; }
+        img { max-width: 100%; border-radius: 8px; margin-top: 10px; display: block; }
     </style>
 </head>
 <body>
 
 <div class="container mt-4">
-    <h2 class="text-center mb-4">माझ्या नोट्स (Math Support)</h2>
+    <h2 class="text-center mb-4">📸 माझ्या नोट्स</h2>
     
     <!-- Input Section -->
     <div class="input-box">
-        <textarea id="noteInput" class="form-control mb-2" rows="4" placeholder="येथे तुमची नोट लिहा... (उदा. \\( E=mc^2 \\))"></textarea>
-        <button class="btn btn-warning w-100" onclick="saveNote()">सेव्ह करा</button>
+        <input type="text" id="noteTitle" class="form-control mb-2" placeholder="शीर्षक (Title)">
+        <textarea id="noteInput" class="form-control mb-2" rows="3" placeholder="मजकूर लिहा किंवा Ctrl+V ने इमेज पेस्ट करा..." onpaste="handlePaste(event)"></textarea>
+        <button class="btn btn-success w-100" onclick="saveNote()">सेव्ह करा</button>
     </div>
 
-    <!-- Notes Grid -->
-    <div id="notesContainer" class="row row-cols-1 row-cols-md-3 g-4"></div>
+    <!-- Notes Gallery Grid -->
+    <div id="notesContainer" class="notes-grid"></div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
     import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-    // तुमची Firebase कॉन्फिगरेशन
     const firebaseConfig = {
         apiKey: "AIzaSyCSwr1mbjcFhjeWCoZIipb5TE3o0jLkU7M",
         authDomain: "quiz-43b3e.firebaseapp.com",
@@ -52,12 +52,30 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    // इमेज पेस्ट हँडल करणे
+    window.handlePaste = (event) => {
+        const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].type.indexOf("image") !== -1) {
+                const blob = items[i].getAsFile();
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const imgTag = `\n<img src="${e.target.result}">\n`;
+                    document.getElementById("noteInput").value += imgTag;
+                };
+                reader.readAsDataURL(blob);
+            }
+        }
+    };
+
     // नोट सेव्ह करणे
     window.saveNote = async () => {
+        const title = document.getElementById("noteTitle").value;
         const text = document.getElementById("noteInput").value;
-        if (!text) return alert("कृपया काहीतरी लिहा!");
+        if (!text && !document.getElementById("noteInput").value.includes("<img")) return alert("कृपया मजकूर किंवा इमेज पेस्ट करा!");
         
         await addDoc(collection(db, "notes"), { 
+            title: title || "विनशर्षक", 
             text: text, 
             createdAt: new Date() 
         });
@@ -69,25 +87,18 @@
         const q = query(collection(db, "notes"), orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(q);
         const container = document.getElementById("notesContainer");
-        container.innerHTML = "";
         
         querySnapshot.forEach((doc) => {
             const data = doc.data();
             container.innerHTML += `
-                <div class="col">
-                    <div class="card note-card p-3">
-                        <div class="card-body">
-                            <p class="card-text">${data.text}</p>
-                        </div>
+                <div class="card note-card p-3">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">${data.title}</h5>
+                        <div class="card-text">${data.text}</div>
                     </div>
                 </div>
             `;
         });
-        
-        // MathJax पुन्हा रेंडर करणे
-        if (window.MathJax) {
-            MathJax.typeset();
-        }
     };
 
     loadNotes();
